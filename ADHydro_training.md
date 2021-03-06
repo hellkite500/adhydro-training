@@ -121,13 +121,13 @@ TODO extract data/docker build
     Verify with `ls /data/ASCII`
 
 2. Now you will run triangle to generate the mesh.  In the ASCII directory:
-  `cd /data/ASCII`
+    `cd /data/ASCII`
 
-  `triangle -pqAjenV mesh.poly`
+    `triangle -pqAjenV mesh.poly`
 
-  or with docker
+    or with docker
 
-  ``docker run -v `pwd`/data:/data adhydro_tools cd /data/ASCII && triangle -pqAjenV mesh.poly``
+    ``docker run -v `pwd`/data:/data adhydro_tools cd /data/ASCII && triangle -pqAjenV mesh.poly``
 
 
     1.  There may be lots of warnings about duplicate vertex and
@@ -212,10 +212,13 @@ TODO extract data/docker build
     `ls /data/ASCII`
 
 #Parameter Data
+
 This section is covered in detail in See [Input Creation Steps](ADHydro_input_creation_instructions.md), section IV: Process parameter data
 
 In this section you will assign parameters like soil and vegetation type to mesh elements.
+
 ##Download data
+
 1.  Before creating the parameter files for a given mesh you need to
     download several kinds of publicly available source data. The
     downloaded source data can be used for processing just one mesh and
@@ -307,6 +310,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
     the downloaded source data saved from a previous mesh.
 
 ##Process Data
+
 1.  Run `parameter_preprocessing.py`
     In the `adhydro-tools` container terminal run the following command.  A quick note on the `-m` flag.
     This is the central meridian of the sinusoidal projection used for ADHydro meshes.  This meridian is selected in the early steps of the mesh creation.  It can be found in the ArcGIS .prj files if needed.  For the Dead Run mesh, the value is `-76`
@@ -315,19 +319,19 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
 
     NOTE: For large meshes, this can take a while, about 8 hours for the
-        Upper Colorado Basin -- 9,186,658 elements -- running on a 16
-        core machine with 126 GB memory. It used approximately 80 GB of
-        memory at peak.
+    Upper Colorado Basin -- 9,186,658 elements -- running on a 16
+    core machine with 126 GB memory. It used approximately 80 GB of
+    memory at peak.
 
-        This script will create a lot of intermediate files. The file names
-        begin with "element\_". For example,
-        "element_cokey_data.parquet.0-X", "element_coord_data.parquet.0-X".
-        These files can be used to recover from a crash by
-        restarting partway through the run using the saved intermediate
-        values. However, this isn't well documented. This
-        functionality is really only useful on really large meshes that take
-        a very long time to process. So you can delete these files if you
-        want.
+    This script will create a lot of intermediate files. The file names
+    begin with "element\_". For example,
+    "element_cokey_data.parquet.0-X", "element_coord_data.parquet.0-X".
+    These files can be used to recover from a crash by
+    restarting partway through the run using the saved intermediate
+    values. However, this isn't well documented. This
+    functionality is really only useful on really large meshes that take
+    a very long time to process. So you can delete these files if you
+    want.
 
     The three files that you need that are created by this processing
     are "mesh.1.geolType", "mesh.1.landCover", and "mesh.1.soilType".
@@ -400,8 +404,11 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
     Use the `adhydro-tools` container terminal to run the following command.  It will resample the gridded forcings and create a single time varying forcing netCDF file that ADHydro can read during simulations.
     First, change to the forcing data directory.
+
     `cd /data/forcing`
+
     then
+
     `python /scripts/forcing/nwm/nwm_2.0_to_adhydro.py -s 2019-07-01:00 -e 2019-12-31:23 -m -76 -c 2 /data /data/forcing/data/`
 
 5.  Do drain-down run.
@@ -427,7 +434,8 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
     Since we are actually going to prepare a simulation, we need to set the reference time accordingly.  This should be the julian date of the first available forcing time.
 
-    One way to find this is to use ncdump and copy the first output of the variable `JULTIME`.
+    One way to find this is to use ncdump and copy the first output of the variable
+    `JULTIME`.
 
     `ncdump -v JULTIME forcing_2020-10-2_2020-10-2.nc | grep JULTIME`
 
@@ -462,15 +470,21 @@ In this section you will assign parameters like soil and vegetation type to mesh
     `adhydroOutputDirectoryPath     = /data/simulation`
 
     Uncomment and set the simulation duration on line 102 based on the amount of time, in seconds, you want to simulate (relative to the reference date).  You can run longer than forcing is available, in which case the last known values of forcing are used for the rest of the simulation.  In general, though, set this duration for the duration of available forcing. To run 1 day:
+
     For one day:
+
     `simulationDuration  = 86400.0`
+
     For 180 days:
+
     `simulationDuration  = 15552000.0`
 
     Set the outputPeriod on line 106 to an approriate interval, in seconds.
 
     For hourly output:
+
     `outputPeriod        = 3600.0`
+    
     Disable the drainDownMode on line 133 by commenting or setting to false.
 
     Run the simulation:
