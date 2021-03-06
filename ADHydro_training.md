@@ -104,7 +104,7 @@ TODO extract data/docker build
 1.  Use a python script to create input files for triangle
     from these previously created shapefiles.
 
-  1. Run the script create_triangle_files.py.
+    1. Run the script create_triangle_files.py.
 
     `create_triangle_files.py <map_dir>`
 
@@ -224,28 +224,28 @@ In this section you will assign parameters like soil and vegetation type to mesh
     you download data that covers the complete area of all of the meshes
     you will use it for.
 
-  1. Create a data directory for your project, \<project path\>/data, and
+    1. Create a data directory for your project, \<project path\>/data, and
     create the following subdirectories: FIXME <project path>
 
-    1.  \<project path\>/data/soil
-    2.  \<project path\>/data/soil/SSURGO
-    3.  \<project path\>/data/soil/STATSGO
-    4.  \<project path\>/data/geology
-    5.  \<project path\>/data/nlcd_2016 -- FIXME in general
+        1.  \<project path\>/data/soil
+        2.  \<project path\>/data/soil/SSURGO
+        3.  \<project path\>/data/soil/STATSGO
+        4.  \<project path\>/data/geology
+        5.  \<project path\>/data/nlcd_2016 -- FIXME in general
 
 2.  You will now download SSURGO and STATSGO data by lat/long bounding
     rectangle.
 
     1.  First we will generate a bounding box for the mesh using an adhydro script.  This will be used in the next step.
-      In the `adhydro-tools` container, run the following command
+    In the `adhydro-tools` container, run the following command
 
-      `mkdir /data/analysis`
-      
-      `python /scripts/gis/mesh_outline.py -o /data/analysis -b 1000 /data/ArcGIS/mesh_catchments.shp`
+    `mkdir /data/analysis`
 
-      This same script can be used to simply report the extents of the mesh by using the `-x` flag.
+    `python /scripts/gis/mesh_outline.py -o /data/analysis -b 1000 /data/ArcGIS/mesh_catchments.shp`
 
-      `/scripts/gis/mesh_outline.py -x /data/ArcGIS/mesh_catchments.shp`
+    This same script can be used to simply report the extents of the mesh by using the `-x` flag.
+
+    `/scripts/gis/mesh_outline.py -x /data/ArcGIS/mesh_catchments.shp`
 
     2. Go to the [USDA Web Soil Survey](https://websoilsurvey.sc.egov.usda.gov/App/WebSoilSurvey.aspx)
 
