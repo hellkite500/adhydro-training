@@ -99,7 +99,7 @@ Start the container with the following
 
 TODO extract data/docker build
 
-`docker run -it -v \`pwd\`/training_data:/data` adhydro-tools`
+``docker run -it -v `pwd`/training_data:/data adhydro-tools``
 
 1.  Use a python script to create input files for triangle
     from these previously created shapefiles.
@@ -121,7 +121,7 @@ TODO extract data/docker build
   `cd /data/ASCII`
   `triangle -pqAjenV mesh.poly`
   or with docker
-  `docker run -v \`pwd\`/data:/data adhydro_tools cd /data/ASCII && triangle -pqAjenV mesh.poly`
+  ``docker run -v `pwd`/data:/data adhydro_tools cd /data/ASCII && triangle -pqAjenV`` mesh.poly`
 
 
     1.  There may be lots of warnings about duplicate vertex and
@@ -143,7 +143,7 @@ TODO extract data/docker build
 
     In another terminal/window run the following command to use the adhydro utility
     `cd training_dir`
-    `docker run -v \`pwd\`/training_data:/data adhydro -c "adhydro_mesh_check /data/ASCII/"`
+    ``docker run -v `pwd`/training_data:/data adhydro -c "adhydro_mesh_check /data/ASCII/"``
 
     1.  Triangles with no catchment label shouldn\'t occur. They can
         occur if a catchment polygon is bisected by streams, but because
@@ -179,7 +179,7 @@ TODO extract data/docker build
     Switch to the other terminal, or in a new terminal/window run the following docker command to
     execute the adhydro channel preprocessing utility.
 
-    `docker run -v \`pwd\`/training_data:/data adhydro -c "adhydro_channel_preprocessing /data"`
+    ``docker run -v `pwd`/training_data:/data adhydro -c "adhydro_channel_preprocessing /data"``
 
     1.  We found that the values in the shapefiles for link type were
         not consistent across data sources. In Wyoming the values were
@@ -434,7 +434,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
     Save this file and then execute adhydro.
 
-    `docker run --cap-add=SYS_PTrace -v \`pwd\`/training_data:/data adhydro -c "mpirun -n 8 adhydro /data/drain_down/superfile.ini"`
+    ``docker run --cap-add=SYS_PTrace -v `pwd`/training_data:/data adhydro -c "mpirun -n 8 adhydro /data/drain_down/superfile.ini"``
 
 6. Run simulation
     Make a simulation directory and copy the drain_down superfile to this directory.
