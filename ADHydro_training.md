@@ -88,26 +88,35 @@ map_dir/
     |-- state.nc.maxDepth.txt
     `-- superfile.ini
 ```
-The TauDEM directory contains the TauDEM generated stream network from previous steps, and the ArcGIS directory contains topologically corrected mesh catchments, streams, and waterbodies.  From these, the following steps will begin populating the ASCII directory.
 
-TODO: preamble docker interactive
-TODO: add a section at the end on how to run ADHydro with slurm/srun/sbatch
-TODO: Later: get docker run to work right with tools
+You will one at least two terminals to use throughout this training.
+
+The TauDEM directory contains the TauDEM generated stream network from previous steps, and the ArcGIS directory contains topologically corrected mesh catchments, streams, and waterbodies.  From these, the following steps will begin populating the ASCII directory.
 
 For these steps, you will be running an interactive `adhydro-tools` container, and entering commands on the terminal within that container.
 
-Start the container with the following
+Make sure your current terminal is in the directory you extracted the `training_data` in.
 
-TODO extract data/docker build
+`ls` should show `training_data` in the current directory.
+
+Next we will start the tools container and mount in the data.
 
 ``docker run -it -v `pwd`/training_data:/data adhydro-tools``
+
+`-it` starts an interactive terminal in the container.
+
+`-v` tells docker to mount the given directory to `/data` inside the container.  This command uses a sub-shell to get the working directory so docker gets an absolute path the `training_data` directory as docker doesn't always play nice with mounting relative paths.
+
+The last argument is the container we are running, `adhydro-tools`.  Your terminal line should look like this once the container is running:
+
+`(base) bash-4.4# `
+
+The following steps will be run in this interactive terminal.
 
 1.  Use a python script to create input files for triangle
     from these previously created shapefiles.
 
     1. Run the script create_triangle_files.py.
-
-    `create_triangle_files.py <map_dir>`
 
     From the docker terminal:
 
@@ -121,12 +130,13 @@ TODO extract data/docker build
 
     Verify with `ls /data/ASCII`
 
-2. Now you will run triangle to generate the mesh.  In the ASCII directory:
+2. Now you will run triangle to generate the mesh in the ASCII directory:
+
     `cd /data/ASCII`
 
     `triangle -pqAjenV mesh.poly`
 
-    or with docker
+    or with docker from a non-interactive session:
 
     ``docker run -v `pwd`/data:/data adhydro_tools cd /data/ASCII && triangle -pqAjenV mesh.poly``
 
@@ -150,7 +160,7 @@ TODO extract data/docker build
 
     In another terminal/window run the following command to use the adhydro utility
 
-    `cd training_dir`
+    `cd <project dir>`
 
     ``docker run -v `pwd`/training_data:/data adhydro -c "adhydro_mesh_check /data/ASCII/"``
 
@@ -173,8 +183,6 @@ TODO extract data/docker build
     This uses the `.node` file in the ASCII directory and the original non-pit-filled DEM in the TauDEM directory for input. It creates a `.z` file in the ASCII directory.
 
     `ls /data/ASCII` to verify the `.z` file was created.
-
-    TODO `.z` file contains <> infomation.
 
 5.  Run the program adhydro_channel_preprocessing. This will
     create three files: a `.chan.ele` file that contains the channel
@@ -362,19 +370,20 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
 2.  Read ASCII files with mesh massage
 
-    TODO summary Mesh Massage Conifguration Table
+    In the training_data archive is an example superfile.  On your machine in a terminal not running the adhydro-tools container, create a directory for this step.
+    `cd <project_path>/training_data/`
 
-    This configuration editing step can be done without using Docker.  Simply create the directories and copy the `example_superfile.ini` file from <FIXME WHERE???>.
+    `mkdir mesh_massage`
 
-    Create a directory called `mesh_massage` and copy the ADhydro example superfile to this directory.  You can rename it to simply superfile.ini if you prefer.
+    Copy the ADhydro example superfile to this directory.  You can rename it to simply superfile.ini if you prefer.
 
-    `cp /adhydro/example_superfile.ini mesh_massage/superfile.ini`
+    `cp example_superfile.ini mesh_massage/superfile.ini`
 
-    This file will confiure the adhydro code. Start by with line 13, it should look like
+    This file will confiure the adhydro code. Open it in your favorite editor, and start with line 13, it should look like
 
     `evapoTranspirationInitDirectoryPath = /adhydro/HRLDAS-v3.6/Run`
 
-    Uncomment line line 33 `initializeFromASCIIFiles` and set it to `true`.
+    Uncomment line 33 `initializeFromASCIIFiles` and set it to `true`.
 
     Next set the `ASCIIInputDirectoryPath` to the directory where the mesh files were created in the previous steps, i.e
 
@@ -397,8 +406,9 @@ In this section you will assign parameters like soil and vegetation type to mesh
     Finally, uncomment line 139, `doMeshMassage` and set it to `true`
 
     Now run adhydro using this superfile.
+    From the \<project path\> in the terminal (using the same one as before, simple `cd ..`)
 
-    `adhydro superfile.ini`
+    ``docker run --cap-add=SYS_PTrace -v `pwd`/training_data:/data adhydro -c "adhydro superfile.ini"``
 
 4.  Create forcing data.
     For this training, we will use National Water Model analysis and assimilation forcings pulled from Google Cloud Platform.  This is provided in the training material under `forcing/data`.
@@ -413,11 +423,15 @@ In this section you will assign parameters like soil and vegetation type to mesh
     `python /scripts/forcing/nwm/nwm_2.0_to_adhydro.py -s 2019-07-01:00 -e 2019-12-31:23 -m -76 -c 2 /data /data/forcing/data/`
 
 5.  Do drain-down run.
+    You can set up the data directory and edit the superfile form the host machine terminal.
+
+    In the \<project path\>/training_data directory:
+
     Create a directory called `drain_down` and copy the `mesh_massage` superfile to this directory.
 
     `cp mesh_massage/superfile.ini drain_down/`
 
-    Now we need to turn off the ASCII initialization and use the mesh_massage generated netCDF files.
+    Now we need to turn off the ASCII initialization and use the mesh_massage generated netCDF files.  Open the `drain_down/superfile.ini` file in your favorite editor.
 
     Edit line 33, comment the line out with a ; or set the value to `false`.
 
@@ -456,7 +470,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
     ``docker run --cap-add=SYS_PTrace -v `pwd`/training_data:/data adhydro -c "mpirun -n 8 adhydro /data/drain_down/superfile.ini"``
 
 6. Run simulation
-    Make a simulation directory and copy the drain_down superfile to this directory.
+    Again, on the host machine terminal, make a simulation directory and copy the drain_down superfile to this directory.
 
     `cp drain_down/superfile.ini simulation/`
 
