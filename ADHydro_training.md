@@ -1,3 +1,4 @@
+# Getting started
 Instructions for creating a mesh from partially processed data.
 
 See [Input Creation Steps](ADHydro_input_creation_instructions.md) for details on the steps leading up to this point. (Section 1, steps 1 - 65)
@@ -211,13 +212,13 @@ TODO extract data/docker build
 
     `ls /data/ASCII`
 
-#Parameter Data
+# Parameter Data
 
 This section is covered in detail in See [Input Creation Steps](ADHydro_input_creation_instructions.md), section IV: Process parameter data
 
 In this section you will assign parameters like soil and vegetation type to mesh elements.
 
-##Download data
+## Download data
 
 1.  Before creating the parameter files for a given mesh you need to
     download several kinds of publicly available source data. The
@@ -309,7 +310,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
     The steps after this need to be done for each mesh even if you had
     the downloaded source data saved from a previous mesh.
 
-##Process Data
+## Process Data
 
 1.  Run `parameter_preprocessing.py`
     In the `adhydro-tools` container terminal run the following command.  A quick note on the `-m` flag.
@@ -484,7 +485,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
     For hourly output:
 
     `outputPeriod        = 3600.0`
-    
+
     Disable the drainDownMode on line 133 by commenting or setting to false.
 
     Run the simulation:
