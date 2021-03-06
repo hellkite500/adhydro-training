@@ -107,7 +107,9 @@ TODO extract data/docker build
   1. Run the script create_triangle_files.py.
 
     `create_triangle_files.py <map_dir>`
+
     From the docker terminal:
+
     `python /scripts/preprocessing/create_triangle_files.py /data`
 
     Now `/data/ASCII` should have the following files.  These are simply ascii formatted geometry descriptions of the mesh catchments, streams, and waterbodies.  These are specifically formatted to be inputs to the triangle mesh creation program.
@@ -115,13 +117,17 @@ TODO extract data/docker build
     - mesh.1.link
     - mesh.node
     - mesh.poly
+
     Verify with `ls /data/ASCII`
 
 2. Now you will run triangle to generate the mesh.  In the ASCII directory:
   `cd /data/ASCII`
+
   `triangle -pqAjenV mesh.poly`
+
   or with docker
-  ``docker run -v `pwd`/data:/data adhydro_tools cd /data/ASCII && triangle -pqAjenV`` mesh.poly`
+
+  ``docker run -v `pwd`/data:/data adhydro_tools cd /data/ASCII && triangle -pqAjenV mesh.poly``
 
 
     1.  There may be lots of warnings about duplicate vertex and
@@ -142,7 +148,9 @@ TODO extract data/docker build
     no catchment label.
 
     In another terminal/window run the following command to use the adhydro utility
+
     `cd training_dir`
+
     ``docker run -v `pwd`/training_data:/data adhydro -c "adhydro_mesh_check /data/ASCII/"``
 
     1.  Triangles with no catchment label shouldn\'t occur. They can
@@ -230,7 +238,9 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
     1.  First we will generate a bounding box for the mesh using an adhydro script.  This will be used in the next step.
       In the `adhydro-tools` container, run the following command
+
       `mkdir /data/analysis`
+      
       `python /scripts/gis/mesh_outline.py -o /data/analysis -b 1000 /data/ArcGIS/mesh_catchments.shp`
 
       This same script can be used to simply report the extents of the mesh by using the `-x` flag.
