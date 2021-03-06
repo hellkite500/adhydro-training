@@ -89,11 +89,11 @@ map_dir/
     `-- superfile.ini
 ```
 
-You will one at least two terminals to use throughout this training.
+You will need at least two terminals to use throughout this training.
 
 The TauDEM directory contains the TauDEM generated stream network from previous steps, and the ArcGIS directory contains topologically corrected mesh catchments, streams, and waterbodies.  From these, the following steps will begin populating the ASCII directory.
 
-For these steps, you will be running an interactive `adhydro-tools` container, and entering commands on the terminal within that container.
+For these steps, you will be running an interactive `adhydro-tools` container, and entering commands on the terminal within that container. A *container* is like a light-weight virtual machine.
 
 Make sure your current terminal is in the directory you extracted the `training_data` in.
 
@@ -171,7 +171,7 @@ The following steps will be run in this interactive terminal.
         will need to investigate why.
     2.  Small triangles usually result from sharp angles in the
         catchment polygons. This can be fixed by hand in ArcGIS.  See [Input Creation Steps](ADHydro_input_creation_instructions.md) for details.  For this example, we won't worry
-        about these.
+        about these "problem" triangles.
 
 4. Now you will use a python script to extract the z coordinate from
     the DEM for each point in the mesh.
