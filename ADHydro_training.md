@@ -241,7 +241,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
     you will use it for.
 
     1. Create a data directory for your project, \<project path\>/data, and
-    create the following subdirectories: FIXME <project path>
+    create the following subdirectories:
 
         1.  \<project path\>/data/soil
         2.  \<project path\>/data/soil/SSURGO
