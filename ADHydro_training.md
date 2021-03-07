@@ -198,6 +198,10 @@ The following steps will be run in this interactive terminal.
 
     ``docker run -v `pwd`/training_data:/data adhydro -c "adhydro_channel_preprocessing /data"``
 
+    If you are running docker as root with sudo, you may need to run the commands with sudo in the container as well to avoid permission issues:
+
+    ``docker run -v `pwd`/training_data:/data adhydro -c "sudo adhydro_channel_preprocessing /data"``
+
     1.  We found that the values in the shapefiles for link type were
         not consistent across data sources. In Wyoming the values were
         words: \"Ice Mass\", \"LakePond\", \"SwampMarsh\", etc. In
