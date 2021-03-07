@@ -510,3 +510,14 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
     `adhydro simulation/superfile.ini`
 
+## Plot outlet hydrograph
+
+The `display.nc` output file in the adhydro simulation directory contains several model state vaules that may be of interest.  A helper script is provided in `adhydro-tools` to plot stramflow, channel water depth, and channel precipitation at a given channel element number.  If there is a USGS NWIS gage at or near the channel element, you can also plot these observations along with the channel states.  To generate these hydrographs for the Dead Run simulation, run the following command in the `adhydro-tools` interactive container terminal:
+
+`python /scripts/analysis/mesh_hydrograph.py /data/simulation/ -o /data/simulation -c 108 -g 01589330 `
+
+Now from your host machine, you can open the following plots and inspect the model output
+  - \<project path\>/training_data/simulation/108_precip.png
+  - \<project path\>/training_data/simulation/108_depth.png
+  - \<project path\>/training_data/simulation/108_flow.png
+
