@@ -298,7 +298,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
     Next is a quick workaround that is needed to get the processing script later to work correctly.
     The AOI download packages the zip structure differently than the soil survey area, so we need to key the area of interested as if it were a soil survey area.
 
-    `mv /data/data/soil/SSURGO/wss_aoi_<tab> mv /data/data/soil/SSURGO/MD005` FIXME required???
+    `mv /data/data/soil/SSURGO/wss_aoi_<tab> /data/data/soil/SSURGO/MD005` FIXME required???
     When typing the above command, use tab complete to help
 
 4. Download the latest National Land Cover Database (NLCD) from
