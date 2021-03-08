@@ -421,7 +421,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
     Now run adhydro using this superfile.
     From the \<project path\> in the terminal (using the same one as before, simple `cd ..`)
 
-    ``docker run --cap-add=SYS_PTrace -v `pwd`/training_data:/data adhydro -c "adhydro superfile.ini"``
+    ``docker run --cap-add=SYS_PTrace -v `pwd`/training_data:/data adhydro -c "adhydro /data/mesh_massage/superfile.ini"``
 
 4.  Create forcing data.
     For this training, we will use National Water Model analysis and assimilation forcings pulled from Google Cloud Platform.  This is provided in the training material under `forcing/data`.
