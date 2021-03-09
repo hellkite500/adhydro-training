@@ -517,7 +517,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
     Run the simulation:
 
-    `adhydro simulation/superfile.ini`
+        ``docker run --cap-add=SYS_PTrace -v `pwd`/training_data:/data adhydro -c "mpirun -n 8 adhydro /data/simulation/superfile.ini"``
 
 ## Plot outlet hydrograph
 
