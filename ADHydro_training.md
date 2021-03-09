@@ -454,7 +454,7 @@ In this section you will assign parameters like soil and vegetation type to mesh
 
     Uncomment line line 58 and set its value to the forcing file created.
 
-    `adhydroInputForcingFilePath   = /data/forcing/forcing_2020-10-2_2020-10-2.nc` FIXME filename
+    `adhydroInputForcingFilePath   = /data/forcing/fforcing_2019-07-1_2019-12-31.nc`
 
     Set the output directory on line 70 to the `drain_down` path, i.e.
 
